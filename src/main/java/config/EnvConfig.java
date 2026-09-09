@@ -15,14 +15,26 @@ public final class EnvConfig {
 		// 1. First check system environment variables
 		// Used by GitHub Actions
 		String value = System.getenv(key);
+		if (value != null && !value.isBlank()) {
+			return value;
+		}
 
 		// 2. If not found, check .env
 		// Used for local development
-		if (value == null || value.isBlank()) {
-			value = DOTENV.get(key);
+		value = DOTENV.get(key);
+
+		if (value != null && !value.isBlank()) {
+			return value;
 		}
 
-		// 3. Fail fast if the value doesn't exist
+		return null;
+	}
+
+	public static String required(String key) {
+
+		String value = get(key);
+
+		// Fail fast if the value doesn't exist
 		if (value == null || value.isBlank()) {
 			throw new IllegalStateException("Required environment variable is missing: " + key);
 		}
