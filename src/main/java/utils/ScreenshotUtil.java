@@ -31,7 +31,8 @@ public final class ScreenshotUtil {
 
 			Files.copy(source.toPath(), screenshotPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
-			return screenshotPath.toAbsolutePath().toString();
+//			return screenshotPath.toAbsolutePath().toString();
+			return "screenshots/" + safeTestName + ".png";
 
 		} catch (Exception e) {
 			return null;

@@ -39,34 +39,11 @@ jobs:
           java --version
           mvn --version
 
-      - name: Debug build
-        run: |
-          echo "===== Java ====="
-          java -version
-
-          echo "===== Maven ====="
-          mvn -version
-
-          echo "===== FrameworkConfig.java ====="
-          nl -ba src/main/java/config/FrameworkConfig.java
-
-          echo "===== Git commit ====="
-          git rev-parse HEAD
-
       # ----------------------------------------
       # Build and compile
       # ----------------------------------------
       - name: Build and compile
         run: mvn clean compile
-
-      - name: Debug Java and FrameworkConfig
-        run: |
-          java -version
-          mvn -version
-          echo "----- FrameworkConfig.java -----"
-          nl -ba src/main/java/config/FrameworkConfig.java
-          echo "----- Git commit -----"
-          git rev-parse HEAD
 
       # ----------------------------------------
       # Run TestNG tests
@@ -87,43 +64,50 @@ jobs:
         run: mvn test
 
       # ----------------------------------------
-      # Upload ExtentReport
+      # Prepare to upload ExtentReport to
+      # Github pages
       # ----------------------------------------
-      - name: Upload ExtentReport
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: extent-report
-          path: reports/ExtentReport.html
-          retention-days: 30
-          if-no-files-found: warn
-
-      # ----------------------------------------
-      # Upload screenshots
-      # ----------------------------------------
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-screenshots
-          path: screenshots/
-          retention-days: 30
-          if-no-files-found: warn
-
-      # ----------------------------------------
-      # Display generated files
-      # ----------------------------------------
-      - name: Show test artifacts
+      - name: Prepare GitHub Pages
         if: always()
         run: |
-          echo "========================================"
-          echo "Test execution completed"
-          echo "========================================"
+          mkdir -p site
 
-          echo ""
-          echo "Reports:"
-          ls -lah reports/ 2>/dev/null || echo "Reports directory not found"
+          if [ -d reports ]; then
+            cp -R reports/. site/
+          else
+            echo "<h1>ExtentReport was not generated</h1>" > site/index.html
+          fi
 
-          echo ""
-          echo "Screenshots:"
-          ls -lah screenshots/ 2>/dev/null || echo "Screenshots directory not found"
+          echo "===== GitHub Pages contents ====="
+          find site -type f -print
+
+      # ----------------------------------------
+      # Upload artifacts
+      # ----------------------------------------
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build-and-test
+    if: always()
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+
+      # ----------------------------------------
+      # Deploy to Github pages
+      # ----------------------------------------
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

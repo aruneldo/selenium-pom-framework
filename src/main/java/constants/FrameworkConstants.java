@@ -10,9 +10,9 @@ public final class FrameworkConstants {
 	public static final String RESOURCES_PATH = PROJECT_PATH + File.separator + "src" + File.separator + "main"
 			+ File.separator + "resources";
 	public static final String CONFIG_PATH = RESOURCES_PATH + File.separator + "config.properties";
-	public static final String REPORT_PATH = PROJECT_PATH + File.separator + "reports" + File.separator
-			+ "ExtentReport.html";
-	public static final String SCREENSHOT_PATH = PROJECT_PATH + File.separator + "screenshots";
+	public static final String REPORT_PATH = PROJECT_PATH + File.separator + "reports" + File.separator + "index.html";
+	public static final String SCREENSHOT_PATH = PROJECT_PATH + File.separator + "reports" + File.separator
+			+ "screenshots";
 
 	public static final String BROWSER = "BROWSER";
 	public static final String URL = "URL";
