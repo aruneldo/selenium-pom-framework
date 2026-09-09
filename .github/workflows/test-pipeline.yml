@@ -39,6 +39,20 @@ jobs:
           java --version
           mvn --version
 
+      - name: Debug build
+        run: |
+          echo "===== Java ====="
+          java -version
+
+          echo "===== Maven ====="
+          mvn -version
+
+          echo "===== FrameworkConfig.java ====="
+          nl -ba src/main/java/config/FrameworkConfig.java
+
+          echo "===== Git commit ====="
+          git rev-parse HEAD
+
       # ----------------------------------------
       # Build and compile
       # ----------------------------------------
