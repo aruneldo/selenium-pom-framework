@@ -1,3 +1,6 @@
+[![Test Automation Pipeline](https://github.com/aruneldo/selenium-pom-framework/actions/workflows/test-pipeline.yml/badge.svg)](https://github.com/aruneldo/selenium-pom-framework/actions/workflows/test-pipeline.yml)
+[![Selenium Extent Reports](https://img.shields.io/badge/Selenium%20Extent%20Reports-Live-2da44e?logo=github&logoColor=white)](https://aruneldo.github.io/selenium-pom-framework/)
+
 # Selenium POM Framework
 
 A modern Page Object Model (POM) framework for test automation using Selenium WebDriver and TestNG.
@@ -58,8 +61,8 @@ selenium-pom-framework/
    ```
 
 4. **View reports**
-   - ExtentReports HTML report: `target/sure-reports/extentreports/index.html`
-   - Screenshots: `src/test/resources/screenshots/` or `reports/screenshots/`
+   - ExtentReports HTML report: `reports/index.html`
+   - Screenshots: `reports/screenshots/`
 
 ## Configuration
 
@@ -84,10 +87,10 @@ The framework supports configuration via **environment variables** and a **`.env
 
 ### How It Works
 1. **First**: System environment variables (`System.getenv()`) - preferred for CI/CD
-2. **Second**: `.env` file values via `io.github.cdimascio.dotenv.Dotenv` - for local development
+2. **Second**: `.env` file values - for local development
 3. **Fail fast**: Throws `IllegalStateException` if required variable is missing
 
-The `EnvConfig.get(key)` method handles the fallback chain automatically, so you can use `FrameworkConfig.load()` as before without code changes.
+The `EnvConfig.get(key)` method handles the fallback chain automatically, so you can use `config.properties` to store common configurations.
 
 ## Reporting
 
@@ -97,4 +100,4 @@ Tests generate ExtentReports HTML reports with:
 - Pass/fail status with error messages
 - Environment information
 
-Reports are located in `target/sure-reports/extentreports/` after test execution.
+Reports are located in `reports/index.html` after test execution.
