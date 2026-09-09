@@ -45,6 +45,15 @@ jobs:
       - name: Build and compile
         run: mvn clean compile
 
+      - name: Debug Java and FrameworkConfig
+        run: |
+          java -version
+          mvn -version
+          echo "----- FrameworkConfig.java -----"
+          nl -ba src/main/java/config/FrameworkConfig.java
+          echo "----- Git commit -----"
+          git rev-parse HEAD
+
       # ----------------------------------------
       # Run TestNG tests
       # ----------------------------------------
