@@ -21,7 +21,10 @@ public abstract class BaseTest {
 
 		logger = LoggerUtil.getLogger(this.getClass());
 
-		FrameworkConfig config = FrameworkConfig.load();
+		logger.info("ENV HEADLESS: [{}]", System.getenv("HEADLESS"));
+	    logger.info("PROPERTY HEADLESS: [{}]", System.getProperty("HEADLESS"));
+
+	    FrameworkConfig config = FrameworkConfig.load();
 
 		logger.info("Starting test");
 
@@ -31,7 +34,11 @@ public abstract class BaseTest {
 
 		logger.info("URL: {}", config.url());
 
-		DriverFactory.createDriver();
+		logger.info("CONFIG BROWSER: [{}]", config.browser());
+	    logger.info("CONFIG HEADLESS: [{}]", config.headless());
+	    logger.info("CONFIG URL: [{}]", config.url());
+
+	    DriverFactory.createDriver();
 
 		getDriver().get(config.url());
 
